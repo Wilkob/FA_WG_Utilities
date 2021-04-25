@@ -5049,6 +5049,24 @@ body {
                   </table>
                 </div>
             </div>
+			<div class="tab-pane" id="DRAFT">
+              <div class="container">
+                <p>DRAFT</p>
+                <p style="word-wrap: break-word;">{{sBinary}}</p>
+                  <table class="draft" style="width:100%">
+                  <tr>
+                    <th>bin</th>
+                    <th>parsing</th>
+                  </tr>
+                      {{#each debug}}
+                      <tr>
+                        <th>{{bin}}</th>
+                        <th>{{parsing}}</th>
+                      </tr>
+                      {{/each}}
+                  </table>
+                </div>
+            </div>
         </div>
       </script>
   </div>
