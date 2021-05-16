@@ -94,6 +94,73 @@ function VehicleCard(VET, UNIT, TRANSPORT, CRAFT) {
     }
 }
 
+function DVehicleCard(VET, UNIT, TRANSPORT, CRAFT,OG) {
+	this.OGCard = OG;
+    this.sVeterancy = VET; // expected binary
+    this.iVet = parseInt(VET, 2);
+    this.iVet0 = this.iVet; //normalized
+    this.sNation = UNIT.sNation; //trusting the database here
+    this.UnitTypeData = UNIT.sUnitData.slice(17);
+    if (TRANSPORT == 0){ //unit
+      this.iYear = UNIT.iYear;
+      this.sSpec = UNIT.sSpecDeck;
+      this.iIsProto = UNIT.iIsProto;
+      this.iaAvailability = UNIT.iaAvailability;
+      this.iCost = UNIT.iCost;
+      this.Unit = UNIT;
+      this.Transport = 0;
+      this.Craft = 0;
+    }
+    else if (TRANSPORT == 1 || TRANSPORT == CardsDB[573][0] || TRANSPORT == CardsDB[458][1]){//naval unit
+      if (Deck.iSide == 0){ //oddly enough, you never [[make]] a unit card without setting the side first.
+        this.Transport = CardsDB[573][0];
+      } else{
+        this.Transport = CardsDB[458][1];
+      }
+      this.iYear = UNIT.iYear;
+      this.sSpec = "1111111"; //naval is unlimited
+      this.iIsProto = UNIT.iIsProto;
+      this.iaAvailability = UNIT.iaAvailability;
+      this.iCost = UNIT.iCost + this.Transport.iCost;
+      this.Unit = UNIT;
+      this.UnitTypeData = "000000001"
+      this.Craft = 0;
+    }
+    else if (CRAFT == 0){ // inf
+      this.iYear = UNIT.iYear < TRANSPORT.iYear ? UNIT.iYear : TRANSPORT.iYear;
+      this.sSpec = "";
+      for (var i = 0; i < 7; i++){
+          if (UNIT.sSpecDeck.charAt(i) == '0' || TRANSPORT.sSpecDeck.charAt(i) == '0') { this.sSpec += '0'; } else {this.sSpec += '1'; } //"JS strings are immutable" WTF?!?
+      }
+      if (UNIT.iIsProto === 1 || TRANSPORT.iIsProto === 1) { this.iIsProto = 1; } else { this.iIsProto = 0}
+      this.iaAvailability = [];
+      for (var i = 0; i < 5; i++){
+        this.iaAvailability[i] = UNIT.iaAvailability[i] < TRANSPORT.iaAvailability[i] ? UNIT.iaAvailability[i] : TRANSPORT.iaAvailability[i];
+      }
+      this.iCost = UNIT.iCost + TRANSPORT.iCost;
+      this.Unit = UNIT;
+      this.Transport = TRANSPORT;
+      this.Craft = 0;
+    }
+    else if (CRAFT == 1 || CRAFT == CardsDB[573][0] || CRAFT == CardsDB[458][1]){ //naval inf
+      if (Deck.iSide == 0){
+        this.Craft = CardsDB[573][0];
+      } else{
+        this.Craft = CardsDB[458][1];
+      }
+      this.iYear = UNIT.iYear < TRANSPORT.iYear ? UNIT.iYear : TRANSPORT.iYear;
+      this.sSpec = "1111111";
+      if (UNIT.iIsProto === 1 || TRANSPORT.iIsProto === 1) { this.iIsProto = 1; } else { this.iIsProto = 0}
+      this.iaAvailability = [];
+      for (var i = 0; i < 5; i++){
+        this.iaAvailability[i] = UNIT.iaAvailability[i] < TRANSPORT.iaAvailability[i] ? UNIT.iaAvailability[i] : TRANSPORT.iaAvailability[i];
+      }
+      this.iCost = UNIT.iCost + TRANSPORT.iCost + this.Craft.iCost;
+      this.Unit = UNIT;
+      this.UnitTypeData = "000000001";
+      this.Transport = TRANSPORT;
+    }
+}
 
 function Traits(Card, HP, SIZE, OPTICS, SPEED, RSPEED, ASPEED, TRAINING, STEALTH, AUTON, AV) {
   Card.iHP = HP;
@@ -115,7 +182,7 @@ function initMainDB()
     Create();
     Mobilize();
     Weaponize();
-    autoLoad();
+    //autoLoad();
 }
 
 function Create()

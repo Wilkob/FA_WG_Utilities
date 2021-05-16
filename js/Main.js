@@ -1,8 +1,11 @@
 //var Dicts = new Dictionaries();
 function init() {
+	console.log("mian init go")
     window.Deck = new DeckAssembly();
     window.CardsDB = new Array(1500);
     window.TransportArray = new Array(1500);
+	window.DraftCardsDB = [];
+	window.Draftable = new Array(3);
     window.Matrix = new matrix();
     for (var i = 0; i < 1500; i++) {
       CardsDB[i]=Array(2);
@@ -24,10 +27,13 @@ function init() {
           $("#helTable").tablesorter();
           $("#airTable").tablesorter();
           $("#navTable").tablesorter();
+		  $("#draftTable").tablesorter();
       }
     );
     ractiveHeader.set('unloaded', false);
     initMainDB();
+
+
 }
 
 function autoLoad(){
@@ -127,8 +133,8 @@ function UnitLookup(){
     else if (Deck.sSpec == "NAV"){spec=6;}
 
 	var valid = true;
-    for (var i=0; i<1114;i++){
-        card = CardsDB[i][Deck.iSide];
+    for (var i=0; i<(DraftCardsDB.length);i++){//CardsDB
+        card = DraftCardsDB[i];//CardsDB[Deck.iSide]
         if(card.sUnitData.charAt(4) != '1'){ //transports don't get their own card
             valid = checkNation(card);
             if (card.iYear <= year && valid == true){
@@ -669,4 +675,374 @@ function toSpec(Card)
     if (Card.iVet == 0) { Card.sVeterancy = "000"; }
     //note: iVet<0 or >5 is error, and honestly *should* break. iVet=5 is possible, for superheavies and jets. Edge case, and coded around
     return Card;
+}
+
+function drafter(CardDataBase){//,side
+	console.log("doing thing")
+	if (window.DraftCardsDB.length <= 40){
+		OP = []
+		for (i = 0; i < 3; i++){
+			OP.push(genCard(CardDataBase,OP))
+		}
+
+	}
+		
+		window.Draftable = OP
+} 
+function genCard(CardDataBase,OP){
+		DLC = ["FIN","YU","ISR","NED","NATO","RED"]
+		var x = true;
+		while (x == true){
+			var Num = (Math.floor(Math.random()*1114))//
+			var card = CardDataBase[Num][Deck.iSide]
+			//console.log(card)
+			if (card.iCost == 0){console.log("I am nothing")}//console.log(card)
+			else if (card.sUnitData.charAt(4) == '1'){console.log("I am tanspot")}//console.log(card)
+			else if (card.sSpecDeck.charAt(7) == 1){console.log("I am boat")}
+			else if (OP.includes(card)){console.log("I am already in draft")}
+			else if (DraftCardsDB.includes(card)){console.log("I am already in deck")}
+			else if (DLC.includes(card.sNation)){"I am DLC"}
+			else{ break; }
+			}
+		//x = true;}
+		//else{
+			//x = false;
+		return (card)
+		//}
+		//}
+}
+function todraft(){
+		console.log(selectedCards[10])
+	    window.DraftCardsDB.push(selectedCards[10])
+		console.log(window.DraftCardsDB)
+		drafter(window.CardsDB)
+		listdraft();
+		listUnits();
+      
+}
+function initdraft(side){
+	if (side == 0){btNATO_Click()}
+	else{btREDFOR_Click()}
+	window.DraftCardsDB = [];
+	drafter(window.CardsDB)
+	listdraft();
+}
+
+function listdraft() //get units for display
+{
+    
+    var body = document.getElementById("draft" + "Body");
+    var blankBody = document.createElement('tbody');
+    blankBody.setAttribute("id","draft" + "Body");
+    body.parentNode.replaceChild(blankBody, body);
+        var table = document.getElementById("draft" + "Body"); //table sorter breaks with empty table
+        var row = table.insertRow(table.rows.length);
+        var nation = row.insertCell(0);
+        var picU = row.insertCell(1);
+        var unit = row.insertCell(2);
+        var costU = row.insertCell(3);
+        var cardsU = row.insertCell(4);
+        var picT = row.insertCell(5);
+        var trans = row.insertCell(6);
+        var costT = row.insertCell(7);
+        var cardsT = row.insertCell(8);
+
+
+    DUnitLookup();
+    $(document).ready(
+        function()
+        {
+        $("#draftTable").trigger("update");
+        }
+    );
+}
+function DUnitLookup(){
+    var card;
+    var naval;
+    var dry;
+    var year = 3000;
+    var spec = -1;
+	var valid = true;
+    for (var i=0; i<(Draftable.length);i++){
+        card = Draftable[i];
+		console.log(card)
+        if(card.sUnitData.charAt(4) != '1'){ //transports don't get their own card
+           
+            if (card.iYear <= year && valid == true){
+                /* if (card.sUnitData.charAt(7) == '1'){//if is inf
+                    for (var j=0; j < TransportArray[card.iUnitID][Deck.iSide].length; j++){
+                        if(TransportArray[card.iUnitID][Deck.iSide][j] != 0){
+                            var veh = CardsDB[TransportArray[card.iUnitID][Deck.iSide][j]][Deck.iSide];
+							if (veh.iIsProto != 1 || (Deck.sNation != "REDFOR" && Deck.sNation != "NATO")){
+								if (veh.iYear <= year) {
+									if (Deck.sSpec == "GEN" || veh.sSpecDeck.charAt(spec) == '1'){
+										if (Deck.sSpec == "GEN" || card.sSpecDeck.charAt(spec) == '1'){
+											dry = new DVehicleCard("000", card, veh, 0,card)
+											toDList(dry);
+										}
+									}
+									if(veh.sUnitData.charAt(27) == '1'){
+										send = new DVehicleCard("000", card, veh, 1,card);
+										toDList(send);
+									}
+								}
+							}
+                        }
+                    }
+                }
+                else{//is veh */
+                    if (Deck.sSpec == "GEN" || card.sSpecDeck.charAt(spec) == '1'){
+                        dry = new DVehicleCard("000", card, 0, 0,card);
+                        toDList(dry);
+                    }
+                    if(card.sUnitData.charAt(27) == '1'){
+                        send = new DVehicleCard("000", card, 1, 0,card)
+                        //toDList(send);
+                    //}
+                }
+            }
+        }
+    }
+}
+function toDList(card){
+    var type = "draftTable";
+
+
+    var table = document.getElementById(type);
+    var row = table.insertRow(table.rows.length);
+    var nation = row.insertCell(0);
+    var picU = row.insertCell(1);
+    var unit = row.insertCell(2);
+    var costU = row.insertCell(3);
+    var cardsU = row.insertCell(4);
+    var picT = row.insertCell(5);
+    var trans = row.insertCell(6);
+    var costT = row.insertCell(7);
+    var cardsT = row.insertCell(8);
+    nation.innerHTML = card.Unit.sNation;
+    unit.innerHTML = card.Unit.sNameU;
+    cardsU.innerHTML = card.Unit.iCards;
+    costU.innerHTML = card.Unit.iCost;
+
+    var iData = document.createElement("img");
+    iData.setAttribute("class", "img-responsive sprite sprite-" + Deck.iSide + card.Unit.iUnitID );
+    iData.setAttribute("style", "position: relative; top: 0; left: 0; height: 30px;");
+    picU.appendChild(iData);
+
+/*     if(card.Transport !=0){
+        var iData = document.createElement("img");
+        iData.setAttribute("class", "img-responsive sprite sprite-" + Deck.iSide + card.Transport.iUnitID );
+        iData.setAttribute("style", "position: relative; top: 0; left: 0; height: 30px;");
+        picT.appendChild(iData);
+        trans.innerHTML = card.Transport.sNameU;
+        cardsT.innerHTML = card.Transport.iCards;
+        costT.innerHTML = card.Transport.iCost;
+    } */
+
+    row.onclick =  function(){DShowCard(card);};
+}
+function DShowCard(Card)
+{
+    var type = "draft"
+	var btn = 10
+/* 
+     if (Card.UnitTypeData.charAt(0) == '1'){ type = "log"; }//logibtn = 0;
+    else if (Card.UnitTypeData.charAt(1) == '1'){type = "inf"; }//infbtn = 1;
+    else if (Card.UnitTypeData.charAt(2) == '1'){type = "sup"; }//supbtn = 2;
+    else if (Card.UnitTypeData.charAt(3) == '1'){type = "tnk"; }//tnkbtn = 3;
+    else if (Card.UnitTypeData.charAt(4) == '1'){type = "rec"; }//recbtn = 4;
+    else if (Card.UnitTypeData.charAt(5) == '1'){type = "veh";}//veh btn = 5;
+    else if (Card.UnitTypeData.charAt(6) == '1'){type = "hel";}//hel btn = 6;
+    else if (Card.UnitTypeData.charAt(7) == '1'){type = "air"; }//airbtn = 7;
+    else {type = "nav";}//nav btn = 8; */
+
+
+    document.getElementById(type + "UD").innerHTML = "";
+    var iData = document.createElement("img");
+    iData.src = "png/blankb.png";
+    iData.setAttribute("class", "img-responsive");
+    iData.setAttribute("style", "position: relative; top: 0; left: 0;");
+    document.getElementById(type + "UD").appendChild(iData);
+
+    if (Card.Unit.sUnitData.charAt(0)== '1') { ShowData(type, "antiair"); }
+    if (Card.Unit.sUnitData.charAt(1)== '1') { ShowData(type, "AAM"); }
+    if (Card.Unit.sUnitData.charAt(2)== '1') { ShowData(type, "armour"); }
+    if (Card.Unit.sUnitData.charAt(3)== '1') { ShowData(type, "atgm"); }
+    if (Card.Unit.sUnitData.charAt(4)== '1') { ShowData(type, "carrier"); }
+    if (Card.Unit.sUnitData.charAt(5)== '1') { ShowData(type, "CMD"); }
+    if (Card.Unit.sUnitData.charAt(6)== '1') { ShowData(type, "helo"); }
+    if (Card.Unit.sUnitData.charAt(7)== '1' && Card.Unit.sUnitData.charAt(14) == '2') { ShowData(type, "rinf"); }
+    if (Card.Unit.sUnitData.charAt(7)== '1' && Card.Unit.sUnitData.charAt(14) != '2') { ShowData(type, "inf"); }
+    if (Card.Unit.sUnitData.charAt(8)== '1') { ShowData(type, "log"); }
+    if (Card.Unit.sUnitData.charAt(9)== '1') { ShowData(type, "eng"); }
+    if (Card.Unit.sUnitData.charAt(10) == '1') { ShowData(type, "plane"); }
+    if (Card.Unit.sUnitData.charAt(11) == '1') { ShowData(type, "rad"); }
+    if (Card.Unit.sUnitData.charAt(12) == '1') { ShowData(type, "rocket"); }
+    if (Card.Unit.sUnitData.charAt(13) == '1') { ShowData(type, "mtr"); }
+    if (Card.Unit.sUnitData.charAt(14) == '1') { ShowData(type, "rec"); }
+    if (Card.Unit.sUnitData.charAt(14) == '2') { ShowData(type, "rec2"); }
+    if (Card.Unit.sUnitData.charAt(14) == '3') { ShowData(type, "rec3"); }
+    if (Card.Unit.sUnitData.charAt(15) == '1') { ShowData(type, "tube"); }
+    if (Card.Unit.sUnitData.charAt(16) == '1') { ShowData(type, "rad"); }
+    if (Card.Unit.sUnitData.charAt(26) == '1') { ShowData(type, "amph"); }
+    if (Card.Unit.sUnitData.charAt(28) == '1') { ShowData(type, "nav1"); }
+    if (Card.Unit.sUnitData.charAt(28) == '2') { ShowData(type, "nav2"); }
+    if (Card.Unit.sUnitData.charAt(28) == '3') { ShowData(type, "nav2"); }
+    if (Card.Unit.sUnitData.charAt(29) == '1') { ShowData(type, "moto"); }
+
+    iData = document.createElement("img");
+    iData.src = "picsb/" + Deck.iSide + Card.Unit.iUnitID + ".png";
+    iData.setAttribute("class", "img-responsive");
+    iData.setAttribute("style", "position: relative; top: 0; left: 0;");
+    document.getElementById(type + "UP").innerHTML = "";
+    document.getElementById(type + "UP").appendChild(iData);
+
+    selectedCards[btn] = Card.OGCard;
+
+/*     var avails = ractiveDeck.get('ranks.' + type);
+    avails.A0 = Math.round(((100 + Deck.availQ) * Card.iaAvailability[0])/100);
+    if(Card.iaAvailability[0] == 0){ avails.B0 = "disabled"} else { avails.B0 = "" }
+    avails.A1 = Math.round(((100 + Deck.availQ) * Card.iaAvailability[1])/100);
+    if(Card.iaAvailability[1] == 0){ avails.B1 = "disabled"} else { avails.B1 = "" }
+    avails.A2 = Math.round(((100 + Deck.availQ) * Card.iaAvailability[2])/100);
+    if(Card.iaAvailability[2] == 0){ avails.B2 = "disabled"} else { avails.B2 = "" }
+    avails.A3 = Math.round(((100 + Deck.availQ) * Card.iaAvailability[3])/100);
+    if(Card.iaAvailability[3] == 0){ avails.B3 = "disabled"} else { avails.B3 = "" }
+    avails.A4 = Math.round(((100 + Deck.availQ) * Card.iaAvailability[4])/100);
+    if(Card.iaAvailability[4] == 0){ avails.B4 = "disabled"} else { avails.B4 = "" }
+    ractiveDeck.update('ranks.' + type); */
+
+    document.getElementById("D" + type).innerHTML = "";
+    var uText = document.createElement("p");
+    uText.innerHTML = Card.Unit.sNameU + "   (" + Card.Unit.iUnitID + ")";
+    document.getElementById("D" + type).appendChild(uText);
+    uText = document.createElement("p");
+    uText.innerHTML = "HP:" + Card.Unit.iHP;
+    document.getElementById("D" + type).appendChild(uText);
+    uText = document.createElement("p");
+    uText.innerHTML = InterpretSize(Card.Unit);
+    document.getElementById("D" + type).appendChild(uText);
+    uText = document.createElement("p");
+    uText.innerHTML = InterpretOptics(Card.Unit);
+    document.getElementById("D" + type).appendChild(uText);
+    uText = document.createElement("p");
+    uText.innerHTML = InterpretStealth(Card.Unit);
+    document.getElementById("D" + type).appendChild(uText);
+    uText = document.createElement("p");
+    uText.innerHTML = "Ground Speed:" + Card.Unit.iSpeed + "km/h";
+    document.getElementById("D" + type).appendChild(uText);
+    uText = document.createElement("p");
+    uText.innerHTML = "Road Speed:" + Card.Unit.iRSpeed + "km/h";
+    document.getElementById("D" + type).appendChild(uText);
+    uText = document.createElement("p");
+    uText.innerHTML = "Amphibious Speed:" + Card.Unit.iASpeed + "km/h";
+    document.getElementById("D" + type).appendChild(uText);
+    uText = document.createElement("p");
+    uText.innerHTML = InterpretTraining(Card);
+    document.getElementById("D" + type).appendChild(uText);
+    uText = document.createElement("p");
+    uText.innerHTML = "Autonomy" + Card.Unit.iAutonomy;
+    document.getElementById("D" + type).appendChild(uText);
+    uText = document.createElement("p");
+    uText.innerHTML = Card.Unit.iYear;
+    document.getElementById("D" + type).appendChild(uText);
+    uText = document.createElement("p");
+    uText.innerHTML = "Road Speed:" + Card.Unit.iRSpeed + "km/h";
+    document.getElementById("D" + type).appendChild(uText);
+    uText = document.createElement("p");
+    uText.innerHTML = "Armor: F-"+ Card.Unit.iaArmor[0] + ", B-" + Card.Unit.iaArmor[1] + ", S-" + Card.Unit.iaArmor[2] + ", T-" + Card.Unit.iaArmor[3];
+    document.getElementById("D" + type).appendChild(uText);
+
+    showWeapon(Card.Unit.W1, type, 1);
+    showWeapon(Card.Unit.W2, type, 2);
+    showWeapon(Card.Unit.W3, type, 3);
+
+    if(Card.Transport != 0){
+        type += "V";
+
+        document.getElementById(type + "UD").innerHTML = "";
+        var iData = document.createElement("img");
+        iData.src = "png/blankb.png";
+        iData.setAttribute("class", "img-responsive");
+        iData.setAttribute("style", "position: relative; top: 0; left: 0;");
+        document.getElementById(type + "UD").appendChild(iData);
+
+        if (Card.Transport.sUnitData.charAt(0)== '1') { ShowData(type, "antiair"); }
+        if (Card.Transport.sUnitData.charAt(1)== '1') { ShowData(type, "AAM"); }
+        if (Card.Transport.sUnitData.charAt(2)== '1') { ShowData(type, "armour"); }
+        if (Card.Transport.sUnitData.charAt(3)== '1') { ShowData(type, "atgm"); }
+        if (Card.Transport.sUnitData.charAt(4)== '1') { ShowData(type, "carrier"); }
+        if (Card.Transport.sUnitData.charAt(5)== '1') { ShowData(type, "CMD"); }
+        if (Card.Transport.sUnitData.charAt(6)== '1') { ShowData(type, "helo"); }
+        if (Card.Transport.sUnitData.charAt(7)== '1' && Card.Unit.sUnitData.charAt(14) == '2') { ShowData(type, "rinf"); }
+        if (Card.Transport.sUnitData.charAt(7)== '1' && Card.Unit.sUnitData.charAt(14) != '2') { ShowData(type, "inf"); }
+        if (Card.Transport.sUnitData.charAt(8)== '1') { ShowData(type, "log"); }
+        if (Card.Transport.sUnitData.charAt(9)== '1') { ShowData(type, "eng"); }
+        if (Card.Transport.sUnitData.charAt(10) == '1') { ShowData(type, "plane"); }
+        if (Card.Transport.sUnitData.charAt(11) == '1') { ShowData(type, "rad"); }
+        if (Card.Transport.sUnitData.charAt(12) == '1') { ShowData(type, "rocket"); }
+        if (Card.Transport.sUnitData.charAt(13) == '1') { ShowData(type, "mtr"); }
+        if (Card.Transport.sUnitData.charAt(14) == '1') { ShowData(type, "rec"); }
+        if (Card.Transport.sUnitData.charAt(14) == '2') { ShowData(type, "rec2"); }
+        if (Card.Transport.sUnitData.charAt(14) == '3') { ShowData(type, "rec3"); }
+        if (Card.Transport.sUnitData.charAt(15) == '1') { ShowData(type, "tube"); }
+        if (Card.Transport.sUnitData.charAt(16) == '1') { ShowData(type, "rad"); }
+        if (Card.Transport.sUnitData.charAt(26) == '1') { ShowData(type, "amph"); }
+        if (Card.Transport.sUnitData.charAt(28) == '1') { ShowData(type, "nav1"); }
+        if (Card.Transport.sUnitData.charAt(28) == '2') { ShowData(type, "nav2"); }
+        if (Card.Transport.sUnitData.charAt(28) == '3') { ShowData(type, "nav2"); }
+        if (Card.Transport.sUnitData.charAt(29) == '1') { ShowData(type, "moto"); }
+
+        iData = document.createElement("img");
+        iData.src = "picsb/" + Deck.iSide + Card.Transport.iUnitID + ".png";
+        iData.setAttribute("class", "img-responsive");
+        iData.setAttribute("style", "position: relative; top: 0; left: 0;");
+        document.getElementById(type + "UP").innerHTML = "";
+        document.getElementById(type + "UP").appendChild(iData);
+
+        document.getElementById("D" + type).innerHTML = "";
+        uText = document.createElement("p");
+        uText.innerHTML = Card.Transport.sNameU  + "   (" + Card.Transport.iUnitID + ")";
+        document.getElementById("D" + type).appendChild(uText);
+        uText = document.createElement("p");
+        uText.innerHTML = "HP:" + Card.Transport.iHP;
+        document.getElementById("D" + type).appendChild(uText);
+        uText = document.createElement("p");
+        uText.innerHTML = InterpretSize(Card.Transport);
+        document.getElementById("D" + type).appendChild(uText);
+        uText = document.createElement("p");
+        uText.innerHTML = InterpretOptics(Card.Transport);
+        document.getElementById("D" + type).appendChild(uText);
+        uText = document.createElement("p");
+        uText.innerHTML = InterpretStealth(Card.Transport);
+        document.getElementById("D" + type).appendChild(uText);
+        uText = document.createElement("p");
+        uText.innerHTML = "Ground Speed:" + Card.Transport.iSpeed + "km/h";
+        document.getElementById("D" + type).appendChild(uText);
+        uText = document.createElement("p");
+        uText.innerHTML = "Road Speed:" + Card.Transport.iRSpeed + "km/h";
+        document.getElementById("D" + type).appendChild(uText);
+        uText = document.createElement("p");
+        uText.innerHTML = "Amphibious Speed:" + Card.Transport.iASpeed + "km/h";
+        document.getElementById("D" + type).appendChild(uText);
+        uText = document.createElement("p");
+        uText.innerHTML = InterpretTraining(Card);
+        document.getElementById("D" + type).appendChild(uText);
+        uText = document.createElement("p");
+        uText.innerHTML = "Autonomy" + Card.Transport.iAutonomy;
+        document.getElementById("D" + type).appendChild(uText);
+        uText = document.createElement("p");
+        uText.innerHTML = Card.Unit.iYear;
+        document.getElementById("D" + type).appendChild(uText);
+        uText = document.createElement("p");
+        uText.innerHTML = "Road Speed:" + Card.Transport.iRSpeed + "km/h";
+        document.getElementById("D" + type).appendChild(uText);
+        uText = document.createElement("p");
+        uText.innerHTML = "Armor: F-"+ Card.Transport.iaArmor[0] + ", B-" + Card.Transport.iaArmor[1] + ", S-" + Card.Transport.iaArmor[2] + ", T-" + Card.Transport.iaArmor[3];
+        document.getElementById("D" + type).appendChild(uText);
+
+        showWeapon(Card.Transport.W1, type, 1);
+        showWeapon(Card.Transport.W2, type, 2);
+        showWeapon(Card.Transport.W3, type, 3);
+    }
 }

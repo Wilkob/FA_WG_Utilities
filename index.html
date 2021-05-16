@@ -8,6 +8,10 @@
   <script src="js/ractive.js"></script>
   <link rel="stylesheet" href="css/bootstrap.css">
   <style>
+  .buttonD {
+	width: 200px;
+	margin: 0 auto;
+	display: inline;}
     .flg {
         width: 50px;
         height: 25px;
@@ -2167,9 +2171,13 @@ body {
   <div class="container">
     <div class="panel" >
         <div class="row">
-            
+            <div class="col-sm-1">
+               <button type="button" id="credit" class="btn btn-default btn-block"  style="line-height: 5; background-color: #fff" onclick="window.location.href='https://aqarius90.github.io/FA_WG_Utilities/'">Original deck builder
+               </button>
+            </div>
             <div class="col-sm-10">
                 <h1 align="center">Drafter : Wargame - Red Dragon</h1>
+				<h6 align="center">Made by Wilkob using aqarius90's deck builder </h6>
             </div>
             <div class="col-sm-1">
                 <button type="button" id="DataButton" class="btn btn-default btn-block"  style="line-height: 3; background-color: #0f0" onclick="btDATA()">DATA
@@ -2506,8 +2514,8 @@ body {
     <script id="templateDeck" type="text/ractive">
       <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
       {{#with headers}}
-          <li class="active"><a href="#Deck" data-toggle="tab">Deck</a></li>
-          <li><a href="#DRAFT" data-toggle="tab">DRAFT</a></li>
+          <li class="active"><a href="#DRAFT" data-toggle="tab">DRAFT</a></li>
+          <li><a href="#Deck" data-toggle="tab">Deck</a></li>
           <li><a href="#Logistics" data-toggle="tab">{{{logi}}}</a></li>
           <li><a href="#Infantry" data-toggle="tab">{{{infa}}}</a></li>
           <li><a href="#Support" data-toggle="tab">{{{supo}}}</a></li>
@@ -2522,7 +2530,7 @@ body {
       </ul>
       <div id="my-tab-content" class="tab-content panel">
             {{#with DeckView}}
-            <div class="tab-pane active" id="Deck">
+            <div class="tab-pane" id="Deck">
               <div class="panel panel-body">
                 <div class="row">
                   <div class="col-sm-010"  style="display:inline-block; vertical-align:middle">
@@ -5049,23 +5057,182 @@ body {
                   </table>
                 </div>
             </div>
-			<div class="tab-pane" id="DRAFT">
-              <div class="container">
-                <p>DRAFT</p>
-                <p style="word-wrap: break-word;">{{sBinary}}</p>
-                  <table class="draft" style="width:100%">
-                  <tr>
-                    <th>bin</th>
-                    <th>parsing</th>
-                  </tr>
-                      {{#each debug}}
-                      <tr>
-                        <th>{{bin}}</th>
-                        <th>{{parsing}}</th>
-                      </tr>
-                      {{/each}}
-                  </table>
+			<div class="tab-pane active" id="DRAFT">
+				<div class="panel panel-body">
+                <div class="row">
+                  <div class="col-sm-010">
+                        <h4>Draft</h4>
+				<div class="row">
+                  <div class="buttonD">
+						<button type="button" class="btn btn-default btn-block" onclick="initdraft(0)">New Draft NATO
+                        </button>
+						<button type="button" class="btn btn-default btn-block" onclick="initdraft(1)">New Draft REDFOR
+                        </button>
+                  </div>
+                  <div class="col-sm-20">
+						
+                  </div> 
+                
+
+
+						</div>
+                  </div>
+                  <div class="col-sm-010">
+                    <div style="position: relative; left: 0; top: 0;">{{{D051}}}
+                    </div>
+                  </div>
+                  <div class="col-sm-010">
+                    <div style="position: relative; left: 0; top: 0;">{{{D052}}}
+                    </div>
+                  </div>
+                  <div class="col-sm-010">
+                    <div style="position: relative; left: 0; top: 0;">{{{D053}}}
+                    </div>
+                  </div>
+                  <div class="col-sm-010">
+                    <div style="position: relative; left: 0; top: 0;">{{{D054}}}
+                    </div>
+                  </div>
+                  <div class="col-sm-010">
+                    <div style="position: relative; left: 0; top: 0;">{{{D055}}}
+                    </div>
+                  </div>
+                  <div class="col-sm-010">
+                    <div style="position: relative; left: 0; top: 0;">{{{D056}}}
+                    </div>
+                  </div>
+                  <div class="col-sm-010">
+                    <div style="position: relative; left: 0; top: 0;">{{{D057}}}
+                    </div>
+                  </div>
+                  <div class="col-sm-010">
+                    <div style="position: relative; left: 0; top: 0;">{{{D058}}}
+                    </div>
+                  </div>
+                  <div class="col-sm-010">
+                    <div style="position: relative; left: 0; top: 0;">{{{D059}}}
+                    </div>
+                  </div>
                 </div>
+                <div class="row">
+                  <div class="col-sm-010">
+                  </div>
+                  <div class="col-sm-010">
+                    <div style="position: relative; left: 0; top: 0;">{{{L051}}}
+                    </div>
+                  </div>
+                  <div class="col-sm-010">
+                    <div style="position: relative; left: 0; top: 0;">{{{L052}}}
+                    </div>
+                  </div>
+                  <div class="col-sm-010">
+                    <div style="position: relative; left: 0; top: 0;">{{{L053}}}
+                    </div>
+                  </div>
+                  <div class="col-sm-010">
+                    <div style="position: relative; left: 0; top: 0;">{{{L054}}}
+                    </div>
+                  </div>
+                  <div class="col-sm-010">
+                    <div style="position: relative; left: 0; top: 0;">{{{L055}}}
+                    </div>
+                  </div>
+                  <div class="col-sm-010">
+                    <div style="position: relative; left: 0; top: 0;">{{{L056}}}
+                    </div>
+                  </div>
+                  <div class="col-sm-010">
+                    <div style="position: relative; left: 0; top: 0;">{{{L057}}}
+                    </div>
+                  </div>
+                  <div class="col-sm-010">
+                    <div style="position: relative; left: 0; top: 0;">{{{L058}}}
+                    </div>
+                  </div>
+                  <div class="col-sm-010">
+                    <div style="position: relative; left: 0; top: 0;">{{{L059}}}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-8">
+                    <div class="tab-scroll">
+                        <table id="draftTable" class="sortable table-hover" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Nation ⇳</th>
+                                    <th></th>
+                                    <th>Unit ⇳</th>
+                                    <th>Points ⇳</th>
+                                    <th>Cards ⇳</th>
+                                    <th></th>
+									<!--
+                                    <th>Transport ⇳</th>
+                                    <th>Points ⇳</th>
+                                    <th>Cards ⇳</th>
+									-->
+                                </tr>
+                            </thead>
+                            <tbody id="draftBody">
+                            </tbody>
+                        </table>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                      {{#with draft}}
+                      <div class="row">
+                        <div class="col-sm-2">
+                          <div class="col-sm-6">
+                          
+                          </div>
+                            <div class="col-sm-6">
+                            <button type="button" class="btn btn-default btn-block {{B0}}" onclick="todraft()">ADD
+                            </button>
+                          </div>
+                        </div>
+                        <div class="col-sm-2">
+                          <p></p>
+                        </div>
+                      </div>
+                      {{/with}}
+                      <ul id="tabsr" class="nav nav-tabs" data-tabs="tabs">
+                          <li class="active"><a href="#Unidraft" data-toggle="tab">Unit</a></li>
+                          <!--<li><a href="#VehD" data-toggle="tab">Transport</a></li>-->
+                      </ul>
+                      <div class="tab-content panel">
+                          <div class="tab-pane active" id="Unitdraft">
+                              <div class="row">
+                                  <div id="draftUD" class="col-sm-6">
+                                  </div>
+                                  <div id="draftUP" class="col-sm-6"></div>
+                              </div>
+                            <div class="row">
+                                <div class="col-sm-4 panel" id="Wdraft1"></div>
+                                <div class="col-sm-4 panel" id="Wdraft2"></div>
+                                <div class="col-sm-4 panel" id="Wdraft3"></div>
+                            </div>
+                            <div class="row panel" id="Ddraft">
+                            </div>
+                          </div>
+                          <!--
+						  <div class="tab-pane" id="VehD">
+                              <div class="row">
+                                  <div id="draftVUD" class="col-sm-6">
+                                  </div>
+                                  <div id="draftVUP" class="col-sm-6"></div>
+                              </div>
+                            <div class="row">
+                                <div class="col-sm-4 panel" id="WdraftV1"></div>
+                                <div class="col-sm-4 panel" id="WdraftV2"></div>
+                                <div class="col-sm-4 panel" id="WdraftV3"></div>
+                            </div>
+                            <div class="row panel" id="DdraftV">
+                            </div>
+                          </div>l-->
+                      </div>
+                  </div>
+                </div>
+              </div>
             </div>
         </div>
       </script>
