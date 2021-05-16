@@ -122,6 +122,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+
   }
 
   function btREDFOR_Click() {
@@ -132,6 +133,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  
   }
   function btBD_Click() {
       Deck.sSide = "BLU";
