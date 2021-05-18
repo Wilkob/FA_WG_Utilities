@@ -8,8 +8,9 @@ function Datacard(ID, DATA, AVAIL, SPEC, YEAR, COST, CARDS, PROTO, NATION, NAME)
     this.sSpecDeck = SPEC;
     this.iYear = YEAR;
     this.iCost = COST;
-    this.iCards = CARDS;
+    this.iCards = 0;
     this.iIsProto = PROTO;
+	this.iMaxCards = CARDS;
     //set on traits
     this.iHP = "";
     this.iSize = ""; // also ECM, as :1-2-3-4-5 vsmall, small, med, big, vbig. 0,10+ is ECM

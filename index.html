@@ -5060,16 +5060,18 @@ body {
 			<div class="tab-pane active" id="DRAFT">
 				<div class="panel panel-body">
                 <div class="row">
-                  <div class="col-sm-010">
+                  <div class="col-sm-40">
                         <h4>Draft</h4>
+						<p id="DraftText"> </p>
 				<div class="row">
+				<div class="col-sm-20">
                   <div class="buttonD">
 						<button type="button" class="btn btn-default btn-block" onclick="initdraft(0)">New Draft NATO
                         </button>
 						<button type="button" class="btn btn-default btn-block" onclick="initdraft(1)">New Draft REDFOR
                         </button>
                   </div>
-                  <div class="col-sm-20">
+                  
 						
                   </div> 
                 
@@ -5181,12 +5183,14 @@ body {
                   <div class="col-sm-4">
                       {{#with draft}}
                       <div class="row">
+					  <p id="DraftText2"> </p>
                         <div class="col-sm-2">
                           <div class="col-sm-6">
                           
                           </div>
-                            <div class="col-sm-6">
-                            <button type="button" class="btn btn-default btn-block {{B0}}" onclick="todraft()">ADD
+						  
+                            <div class="col-sm-20">
+                            <button id="DBtn" type="button" disabled class="btn btn-default btn-block {{B0}}" onclick="todraft()">ADD
                             </button>
                           </div>
                         </div>

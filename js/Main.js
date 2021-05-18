@@ -5,13 +5,14 @@ function init() {
     window.CardsDB = new Array(1500);
     window.TransportArray = new Array(1500);
 	window.DraftCardsDB = [];
+	window.Limit = 50
 	window.Draftable = new Array(3);
     window.Matrix = new matrix();
     for (var i = 0; i < 1500; i++) {
       CardsDB[i]=Array(2);
       TransportArray[i]=Array(2);
     }
-    window.selectedCards = [0,0,0,0,0,0,0,0,0];
+    window.selectedCards = [0,0,0,0,0,0,0,0,0,0];
     window.IDlist = [];
     window.tDebug = [];
     window.DataDisplay = 1;
@@ -135,6 +136,7 @@ function UnitLookup(){
 	var valid = true;
     for (var i=0; i<(DraftCardsDB.length);i++){//CardsDB
         card = DraftCardsDB[i];//CardsDB[Deck.iSide]
+		//console.log(card)
         if(card.sUnitData.charAt(4) != '1'){ //transports don't get their own card
             valid = checkNation(card);
             if (card.iYear <= year && valid == true){
@@ -678,10 +680,10 @@ function toSpec(Card)
 }
 
 function drafter(CardDataBase){//,side
-	console.log("doing thing")
-	if (window.DraftCardsDB.length <= 40){
+	
+	if (window.DraftCardsDB.length <= window.Limit){
 		OP = []
-		for (i = 0; i < 3; i++){
+		for(i = 0; i < 3; i++){
 			OP.push(genCard(CardDataBase,OP))
 		}
 
@@ -690,35 +692,80 @@ function drafter(CardDataBase){//,side
 		window.Draftable = OP
 } 
 function genCard(CardDataBase,OP){
+		//console.log("doing thing")
 		DLC = ["FIN","YU","ISR","NED","NATO","RED"]
 		var x = true;
 		while (x == true){
-			var Num = (Math.floor(Math.random()*1114))//
+			var Num = (Math.floor(Math.random()*1114))//1114
 			var card = CardDataBase[Num][Deck.iSide]
 			//console.log(card)
 			if (card.iCost == 0){console.log("I am nothing")}//console.log(card)
 			else if (card.sUnitData.charAt(4) == '1'){console.log("I am tanspot")}//console.log(card)
 			else if (card.sSpecDeck.charAt(7) == 1){console.log("I am boat")}
 			else if (OP.includes(card)){console.log("I am already in draft")}
-			else if (DraftCardsDB.includes(card)){console.log("I am already in deck")}
+			else if (DraftCardsDB.includes(card)){
+				//console.log(card)
+				//var y = DraftCardsDB.filter(item => item.iUnitID == Num);
+				//(checklisdraft,card)
+				//console.log(y)
+				if ((card.iCards + 1) > CardDataBase[Num][Deck.iSide].iMaxCards){
+					//console.log(CardDataBase[Num][Deck.iSide])
+					console.log("I am already in deck to max")
+					}
+				else{console.log("I am already in deck but i have room to grow")
+					break;}
+				//DraftCardsDB.index
+				//if CardDataBase[Num][Deck.iSide].iCards 
+				
+				}
 			else if (DLC.includes(card.sNation)){"I am DLC"}
-			else{ break; }
-			}
+			
+		else{  	
+		/* console.log("made it to else")
+		for(x = 0; x < DraftCardsDB.length; x++){
+			console.log(x)
+			console.log(DraftCardsDB[x])
+			if (DraftCardsDB[x].iUnitID == Num){
+				console.log((DraftCardsDB[x].iCards + 1))
+				if ((DraftCardsDB[x].iCards + 1) > CardDataBase[Num][Deck.iSide].iCards){
+					card.iCards = (DraftCardsDB[x].iCards + 1)
+					console.log("I am already in deck but its okay") */
+					break;
+				} 
+			//else{console.log("I am already in deck")}
+		//}
+		//}
 		//x = true;}
 		//else{
 			//x = false;
+		}
+		
 		return (card)
 		//}
 		//}
 }
 function todraft(){
-		console.log(selectedCards[10])
-	    window.DraftCardsDB.push(selectedCards[10])
+	if (selectedCards[10] === ""){document.getElementById("DraftText2").innerHTML = "Select a vaild card";}
+	if (window.DraftCardsDB.length < window.Limit && selectedCards[10] != ""){
+		//console.log(selectedCards[10])
+		document.getElementById("DraftText2").innerHTML = "";
+		addingtodraftlist(selectedCards[10])
+		//window.DraftCardsDB.push(selectedCards[10])
+		selectedCards[10] = ""
 		console.log(window.DraftCardsDB)
 		drafter(window.CardsDB)
 		listdraft();
 		listUnits();
-      
+		
+		var string = new String(DraftCardsDB.length + " cards picked of " + window.Limit)
+		document.getElementById("DraftText").innerHTML = string;
+	}
+	if (window.DraftCardsDB.length >= window.Limit) {
+		document.getElementById("DraftText").innerHTML = "Draft done";
+		window.Draftable = []
+		listdraft();
+	}
+
 }
 function initdraft(side){
 	if (side == 0){btNATO_Click()}
@@ -726,6 +773,11 @@ function initdraft(side){
 	window.DraftCardsDB = [];
 	drafter(window.CardsDB)
 	listdraft();
+	selectedCards[10] = ""
+	document.getElementById("DBtn").disabled = false;
+	document.getElementById("DraftText2").innerHTML = "";
+	var string = new String(DraftCardsDB.length + " cards picked of " + window.Limit)
+	document.getElementById("DraftText").innerHTML = string;
 }
 
 function listdraft() //get units for display
@@ -765,7 +817,7 @@ function DUnitLookup(){
 	var valid = true;
     for (var i=0; i<(Draftable.length);i++){
         card = Draftable[i];
-		console.log(card)
+		//console.log(card)
         if(card.sUnitData.charAt(4) != '1'){ //transports don't get their own card
            
             if (card.iYear <= year && valid == true){
@@ -795,15 +847,11 @@ function DUnitLookup(){
                         dry = new DVehicleCard("000", card, 0, 0,card);
                         toDList(dry);
                     }
-                    if(card.sUnitData.charAt(27) == '1'){
-                        send = new DVehicleCard("000", card, 1, 0,card)
-                        //toDList(send);
-                    //}
                 }
             }
         }
     }
-}
+
 function toDList(card){
     var type = "draftTable";
 
@@ -1045,4 +1093,14 @@ function DShowCard(Card)
         showWeapon(Card.Transport.W2, type, 2);
         showWeapon(Card.Transport.W3, type, 3);
     }
+}
+function addingtodraftlist(card){
+	card.iCards += 1
+	if (DraftCardsDB.includes(card)){
+		//console.log(card)
+	
+	
+	}
+	else{//console.log(card)
+		window.DraftCardsDB.push(card)}
 }
