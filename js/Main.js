@@ -702,6 +702,7 @@ function genCard(CardDataBase,OP){
 			if (card.iCost == 0){console.log("I am nothing")}//console.log(card)
 			else if (card.sUnitData.charAt(4) == '1'){console.log("I am tanspot")}//console.log(card)
 			else if (card.sSpecDeck.charAt(7) == 1){console.log("I am boat")}
+			else if (card.iIsProto == 1){console.log("I am prototype")}
 			else if (OP.includes(card)){console.log("I am already in draft")}
 			else if (DraftCardsDB.includes(card)){
 				//console.log(card)
