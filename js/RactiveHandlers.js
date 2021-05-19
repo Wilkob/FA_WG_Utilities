@@ -99,11 +99,12 @@ var ractiveDeck = new Ractive({
        }
   });
 
-  function btDecode(){
-      Deck = new DeckAssembly();
-      DeckDisAssembly();
-      GUIDisplay();
-      listUnits();
+  function btCopy(){
+    var copyText = document.getElementById("sDeckString");
+	copyText.select();
+	copyText.setSelectionRange(0, 99999)
+	document.execCommand("copy");
+	alert("Deck code copied to clipboard");
   }
 
   function btClear()

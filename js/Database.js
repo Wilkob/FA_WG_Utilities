@@ -11,6 +11,7 @@ function Datacard(ID, DATA, AVAIL, SPEC, YEAR, COST, CARDS, PROTO, NATION, NAME)
     this.iCards = 0;
     this.iIsProto = PROTO;
 	this.iMaxCards = CARDS;
+	if (DATA.charAt(4) == '1'){this.iCards = CARDS;}//console.log(card)
     //set on traits
     this.iHP = "";
     this.iSize = ""; // also ECM, as :1-2-3-4-5 vsmall, small, med, big, vbig. 0,10+ is ECM
