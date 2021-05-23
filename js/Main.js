@@ -6,6 +6,8 @@ function init() {
     window.TransportArray = new Array(1500);
 	window.DraftCardsDB = [];
 	window.Limit = 50
+	window.Draftmode = 0 
+	window.DraftN = ""
 	window.Draftable = new Array(3);
     window.Matrix = new matrix();
     for (var i = 0; i < 1500; i++) {
@@ -693,57 +695,58 @@ function drafter(CardDataBase){//,side
 } 
 function genCard(CardDataBase,OP){
 		//console.log("doing thing")
-		DLC = ["FIN","YU","ISR","NED","NATO","RED"]
+		boat = ["NATO","RED"]
+		DLC = ["FIN","YU","ISR","NED"]
 		var x = true;
+		if (window.Draftmode == 0){
 		while (x == true){
 			var Num = (Math.floor(Math.random()*1114))//1114
-			var card = CardDataBase[Num][Deck.iSide]
+			var card = CardDataBase[Num][window.DraftSide]
 			//console.log(card)
 			if (card.iCost == 0){console.log("I am nothing")}//console.log(card)
 			else if (card.sUnitData.charAt(4) == '1'){console.log("I am tanspot")}//console.log(card)
-			else if (card.sSpecDeck.charAt(7) == 1){console.log("I am boat")}
-			else if (card.iIsProto == 1){console.log("I am prototype")}
+			else if (boat.includes(card.sNation)){console.log("I am boat")}
+			
 			else if (OP.includes(card)){console.log("I am already in draft")}
 			else if (DraftCardsDB.includes(card)){
-				//console.log(card)
-				//var y = DraftCardsDB.filter(item => item.iUnitID == Num);
-				//(checklisdraft,card)
-				//console.log(y)
 				if ((card.iCards + 1) > CardDataBase[Num][Deck.iSide].iMaxCards){
-					//console.log(CardDataBase[Num][Deck.iSide])
 					console.log("I am already in deck to max")
 					}
 				else{console.log("I am already in deck but i have room to grow")
 					break;}
-				//DraftCardsDB.index
-				//if CardDataBase[Num][Deck.iSide].iCards 
+
 				
 				}
 			else if (DLC.includes(card.sNation)){"I am DLC"}
-			
-		else{  	
-		/* console.log("made it to else")
-		for(x = 0; x < DraftCardsDB.length; x++){
-			console.log(x)
-			console.log(DraftCardsDB[x])
-			if (DraftCardsDB[x].iUnitID == Num){
-				console.log((DraftCardsDB[x].iCards + 1))
-				if ((DraftCardsDB[x].iCards + 1) > CardDataBase[Num][Deck.iSide].iCards){
-					card.iCards = (DraftCardsDB[x].iCards + 1)
-					console.log("I am already in deck but its okay") */
-					break;
-				} 
-			//else{console.log("I am already in deck")}
-		//}
-		//}
-		//x = true;}
-		//else{
-			//x = false;
+		else{break;} 
+		}	
 		}
-		
+		else{
+		while (x == true){
+			var Num = (Math.floor(Math.random()*1114))//1114
+			var card = CardDataBase[Num][window.DraftSide]
+			//console.log(card)
+			if (card.iCost == 0){}//console.log(card)console.log("I am nothing")
+			else if (checkDNation(card) == false){}
+			else if (card.sUnitData.charAt(4) == '1'){}//console.log(card)console.log("I am tanspot"console.log("I am boat"))console.log("I am not valid")console.log("I am already in draft")
+			else if (boat.includes(card.sNation)){}
+			
+			else if (OP.includes(card)){}
+			else if (DraftCardsDB.includes(card)){
+				if ((card.iCards + 1) > CardDataBase[Num][Deck.iSide].iMaxCards){
+					console.log("I am already in deck to max")
+					}
+				else{console.log("I am already in deck but i have room to grow")
+					break;}
+
+				
+				}
+			
+		else{break;} 
+		}
+		}
 		return (card)
-		//}
-		//}
+
 }
 function todraft(){
 	if (selectedCards[10] === ""){document.getElementById("DraftText2").innerHTML = "Select a vaild card";}
@@ -768,9 +771,22 @@ function todraft(){
 	}
 
 }
-function initdraft(side){
-	if (side == 0){btNATO_Click()}
-	else{btREDFOR_Click()}
+function initdraft(mode){
+	if (mode == 3){
+		window.Draftmode = 1 
+		window.DraftN = Deck.sNation
+		window.DraftSide = Deck.iSide
+		console.log(window.DraftN)
+	}
+	else if (mode == 0){
+		btNATO_Click()
+		window.Draftmode = 0
+		window.DraftSide = Deck.iSide}
+	else{
+		btREDFOR_Click()
+		window.Draftmode = 0
+		window.DraftSide = Deck.iSide}
+	
 	window.DraftCardsDB = [];
 	drafter(window.CardsDB)
 	listdraft();
@@ -822,28 +838,6 @@ function DUnitLookup(){
         if(card.sUnitData.charAt(4) != '1'){ //transports don't get their own card
            
             if (card.iYear <= year && valid == true){
-                /* if (card.sUnitData.charAt(7) == '1'){//if is inf
-                    for (var j=0; j < TransportArray[card.iUnitID][Deck.iSide].length; j++){
-                        if(TransportArray[card.iUnitID][Deck.iSide][j] != 0){
-                            var veh = CardsDB[TransportArray[card.iUnitID][Deck.iSide][j]][Deck.iSide];
-							if (veh.iIsProto != 1 || (Deck.sNation != "REDFOR" && Deck.sNation != "NATO")){
-								if (veh.iYear <= year) {
-									if (Deck.sSpec == "GEN" || veh.sSpecDeck.charAt(spec) == '1'){
-										if (Deck.sSpec == "GEN" || card.sSpecDeck.charAt(spec) == '1'){
-											dry = new DVehicleCard("000", card, veh, 0,card)
-											toDList(dry);
-										}
-									}
-									if(veh.sUnitData.charAt(27) == '1'){
-										send = new DVehicleCard("000", card, veh, 1,card);
-										toDList(send);
-									}
-								}
-							}
-                        }
-                    }
-                }
-                else{//is veh */
                     if (Deck.sSpec == "GEN" || card.sSpecDeck.charAt(spec) == '1'){
                         dry = new DVehicleCard("000", card, 0, 0,card);
                         toDList(dry);
@@ -877,16 +871,6 @@ function toDList(card){
     iData.setAttribute("class", "img-responsive sprite sprite-" + Deck.iSide + card.Unit.iUnitID );
     iData.setAttribute("style", "position: relative; top: 0; left: 0; height: 30px;");
     picU.appendChild(iData);
-
-/*     if(card.Transport !=0){
-        var iData = document.createElement("img");
-        iData.setAttribute("class", "img-responsive sprite sprite-" + Deck.iSide + card.Transport.iUnitID );
-        iData.setAttribute("style", "position: relative; top: 0; left: 0; height: 30px;");
-        picT.appendChild(iData);
-        trans.innerHTML = card.Transport.sNameU;
-        cardsT.innerHTML = card.Transport.iCards;
-        costT.innerHTML = card.Transport.iCost;
-    } */
 
     row.onclick =  function(){DShowCard(card);};
 }
@@ -1104,4 +1088,34 @@ function addingtodraftlist(card){
 	}
 	else{//console.log(card)
 		window.DraftCardsDB.push(card)}
+}
+
+ function checkDNation(card){
+  if(card.sNation == "ANZAC" && (window.DraftN != "ANZAC" && window.DraftN != "CW" && window.DraftN != "NATO")){ return false; }
+  else if(card.sNation == "BRD" && (window.DraftN != "BRD" && window.DraftN != "EU" && window.DraftN != "LJUT" && window.DraftN != "BDRNL" )){ return false; }
+  else if(card.sNation == "CAN" && (window.DraftN != "CAN" && window.DraftN != "CW" && window.DraftN != "NORAD" )){ return false; }
+  else if(card.sNation == "DEN" && (window.DraftN != "DEN" && window.DraftN != "LJUT" && window.DraftN != "SCA" )){ return false; }
+  else if(card.sNation == "FRA" && (window.DraftN != "FRA" && window.DraftN != "EU" )){ return false; }
+  else if(card.sNation == "JAP" && (window.DraftN != "JAP" && window.DraftN != "BD" )){ return false; }
+  else if(card.sNation == "NED" && (window.DraftN != "NED" && window.DraftN != "BDRNL")){ return false; }
+  else if(card.sNation == "NOR" && (window.DraftN != "NOR" && window.DraftN != "SCA")){ return false; }
+  else if(card.sNation == "ROK" && (window.DraftN != "ROK" && window.DraftN != "BD")){ return false; }
+  else if(card.sNation == "SWE" && (window.DraftN != "SWE" && window.DraftN != "SCA")){ return false; }
+  else if(card.sNation == "UK" && (window.DraftN != "UK" && window.DraftN != "CW")){ return false; }
+  else if(card.sNation == "USA" && (window.DraftN != "USA" && window.DraftN != "NORAD")){ return false; }
+  else if(card.sNation == "ISR" && (window.DraftN != "ISR" )){ return false; }
+  else if(card.sNation == "NATO" && Deck.iSide != 0){ return false; }
+
+  else if(card.sNation == "CZS" && (window.DraftN != "CZS" && window.DraftN != "NSWP" && window.DraftN != "YUCZE" )){ return false; }
+  else if(card.sNation == "DDR" && (window.DraftN != "DDR" && window.DraftN != "NSWP" )){ return false; }
+  else if(card.sNation == "DPRK" && (window.DraftN != "DPRK" && window.DraftN != "RD" )){ return false; }
+  else if(card.sNation == "POL" && (window.DraftN != "POL" && window.DraftN != "NSWP" && window.DraftN != "FINPL" )){ return false; }
+  else if(card.sNation == "PRC" && (window.DraftN != "PRC" && window.DraftN != "RD" )){ return false; }
+  else if(card.sNation == "USSR" && (window.DraftN != "USSR" )){ return false; }
+  else if(card.sNation == "FIN" && (window.DraftN != "FIN" && window.DraftN != "FINPL" )){ return false; }
+  else if(card.sNation == "YU" && (window.DraftN != "YU" && window.DraftN != "YUCZE" )){ return false; }
+  else if(card.sNation == "REDFOR" && Deck.iSide != 1){ return false; }
+
+  else if(card.iIsProto == 1 && (window.DraftN == "REDFOR" || window.DraftN == "NATO")){ return false; }
+  else if(card.sNation != ""){ return true; }
 }

@@ -144,6 +144,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btCOM_Click() {
       Deck.sSide = "BLU";
@@ -153,6 +154,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btEU_Click() {
       Deck.sSide = "BLU";
@@ -162,6 +164,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btLJ_Click() {
       Deck.sSide = "BLU";
@@ -171,6 +174,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btBRDNL_Click() {
       Deck.sSide = "BLU";
@@ -180,6 +184,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btNORAD_Click() {
       Deck.sSide = "BLU";
@@ -189,6 +194,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btSCA_Click() {
       Deck.sSide = "BLU";
@@ -198,6 +204,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btNSWP_Click() {
       Deck.sSide = "RED";
@@ -207,6 +214,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btRD_Click() {
       Deck.sSide = "RED";
@@ -216,6 +224,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btANZAC_Click() {
       Deck.sSide = "BLU";
@@ -225,6 +234,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btBRD_Click() {
       Deck.sSide = "BLU";
@@ -234,6 +244,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btCAN_Click() {
       Deck.sSide = "BLU";
@@ -243,6 +254,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btDEN_Click() {
       Deck.sSide = "BLU";
@@ -252,6 +264,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btFRA_Click() {
       Deck.sSide = "BLU";
@@ -261,6 +274,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btJAP_Click() {
       Deck.sSide = "BLU";
@@ -270,6 +284,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btNED_Click() {
       Deck.sSide = "BLU";
@@ -279,6 +294,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btNOR_Click() {
       Deck.sSide = "BLU";
@@ -288,6 +304,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btROK_Click() {
       Deck.sSide = "BLU";
@@ -297,6 +314,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btSWE_Click() {
       Deck.sSide = "BLU";
@@ -306,6 +324,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btUK_Click() {
       Deck.sSide = "BLU";
@@ -315,6 +334,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btUSA_Click() {
       Deck.sSide = "BLU";
@@ -324,6 +344,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btCZS_Click() {
       Deck.sSide = "RED";
@@ -333,6 +354,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btDDR_Click() {
       Deck.sSide = "RED";
@@ -342,6 +364,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btDPRK_Click() {
       Deck.sSide = "RED";
@@ -351,6 +374,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btPOL_Click() {
       Deck.sSide = "RED";
@@ -360,6 +384,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
   function btPRC_Click() {
       Deck.sSide = "RED";
@@ -369,6 +394,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
 
   function btUSSR_Click() {
@@ -379,6 +405,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
 
   function btISR_Click() {
@@ -389,6 +416,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
 
   function btFINPL_Click() {
@@ -399,6 +427,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
 
   function btYUCZE_Click() {
@@ -409,6 +438,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
 
   function btFIN_Click() {
@@ -419,6 +449,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
 
   function btYU_Click() {
@@ -429,6 +460,7 @@ var ractiveDeck = new Ractive({
       GUIDisplay();
       listUnits();
       DeckExport();
+	  document.getElementById("DSpecBtn").disabled = false;
   }
 
   function btA()
